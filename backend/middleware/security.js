@@ -3,7 +3,7 @@ const rateLimit = require("express-rate-limit");
 const cors = require("cors");
 
 const corsOptions = {
-  origin: process.env.FRONTEND_URL || "http://localhost:5173",
+  origin: process.env.FRONTEND_URL || "https://restaurant-menu-nine-orcin.vercel.app/",
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization", "multipart/form-data"],
   credentials: true,
