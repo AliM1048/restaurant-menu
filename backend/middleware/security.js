@@ -2,9 +2,31 @@ const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const cors = require("cors");
 
+const allowedOrigins = [
+  "https://restaurant-menu-nine-orcin.vercel.app",
+  "http://localhost:5173",
+  "http://localhost:5174",
+  "http://localhost:3000",
+  "http://localhost:3001"
+];
+
+if (process.env.FRONTEND_URL) {
+  allowedOrigins.push(process.env.FRONTEND_URL);
+  allowedOrigins.push(process.env.FRONTEND_URL.replace(/\/$/, ""));
+}
+
 const corsOptions = {
-  origin:
-    "https://restaurant-menu-nine-orcin.vercel.app" || process.env.FRONTEND_URL,
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps, curl, or postman)
+    if (!origin) return callback(null, true);
+    
+    const cleanOrigin = origin.replace(/\/$/, "");
+    if (allowedOrigins.includes(cleanOrigin)) {
+      callback(null, true);
+    } else {
+      callback(new Error(`Origin ${origin} not allowed by CORS`));
+    }
+  },
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization", "multipart/form-data"],
   credentials: true,
