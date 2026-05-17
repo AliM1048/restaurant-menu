@@ -16,19 +16,8 @@ if (process.env.FRONTEND_URL) {
 }
 
 const corsOptions = {
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps, curl, or postman)
-    if (!origin) return callback(null, true);
-    
-    const cleanOrigin = origin.replace(/\/$/, "");
-    if (allowedOrigins.includes(cleanOrigin)) {
-      callback(null, true);
-    } else {
-      callback(new Error(`Origin ${origin} not allowed by CORS`));
-    }
-  },
+  origin: allowedOrigins,
   methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization", "multipart/form-data"],
   credentials: true,
 };
 
