@@ -54,8 +54,11 @@ function ImageUploadField({ currentImageId, currentImageUrl, onUploaded }) {
   const [preview, setPreview] = useState(null);
   const [uploading, setUploading] = useState(false);
 
+  const backendUrl = import.meta.env.VITE_BACKEND_URL || "";
+  const base = backendUrl.endsWith("/") ? backendUrl.slice(0, -1) : backendUrl;
+
   const existingSrc = currentImageId
-    ? `/api/images/${currentImageId}`
+    ? (base ? `${base}/images/${currentImageId}` : `/api/images/${currentImageId}`)
     : currentImageUrl || null;
 
   const handleFile = async (file) => {
