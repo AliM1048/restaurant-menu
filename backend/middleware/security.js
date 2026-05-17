@@ -25,6 +25,9 @@ const adminLimiter = rateLimit({
 });
 
 function applySecurityMiddleware(app) {
+  // Trust the Render proxy (needed for express-rate-limit to see real client IPs)
+  app.set("trust proxy", 1);
+
   app.use(helmet());
   app.use(cors(corsOptions));
   app.use("/api", limiter);
