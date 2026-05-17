@@ -28,7 +28,12 @@ function applySecurityMiddleware(app) {
   // Trust the Render proxy (needed for express-rate-limit to see real client IPs)
   app.set("trust proxy", 1);
 
-  app.use(helmet());
+  // app.use(helmet());
+  app.use(
+    helmet({
+      crossOriginResourcePolicy: { policy: "cross-origin" },
+    }),
+  );
   app.use(cors(corsOptions));
   app.use("/api", limiter);
   app.use("/api/admin/login", adminLimiter);
